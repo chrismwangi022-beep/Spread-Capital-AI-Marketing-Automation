@@ -1,0 +1,10 @@
+{
+  "name": "spread-capital-creative-engine",
+  "version": "1.0.0",
+  "description": "Deterministic Layered Headless Graphics Engine",
+  "main": "render.js",
+  "dependencies": {
+    "express": "^5.2.1",
+    "puppeteer": "^22.6.0"
+  }
+}

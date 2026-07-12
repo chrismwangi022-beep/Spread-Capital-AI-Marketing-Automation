@@ -1,0 +1,174 @@
+/* ==========================================================================
+   01 GRAPHICS COMPOSITOR FRAMEWORK BASE RESET
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body.engine-renderer {
+  background: #03050C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: var(--typo-body-family, sans-serif);
+}
+
+/* ==========================================================================
+   02 INITIAL ENGINE PARAMETRIC TOKENS
+   ========================================================================== */
+:root {
+  --canvas-w: 1080px;
+  --canvas-h: 1350px;
+  --safe-top: 60px;
+  --safe-bottom: 60px;
+  --safe-left: 60px;
+  --safe-right: 60px;
+
+  --z-bg: 10;
+  --z-gradient: 20;
+  --z-shapes: 30;
+  --z-components: 50;
+  --z-safezone: 999;
+
+  --radius-pill: 9999px;
+  --radius-card: 24px;
+  --shadow-depth: 0 30px 60px rgba(0,0,0,0.4);
+}
+
+/* ==========================================================================
+   03 CANVAS GRAPHICS VIEWPORT SPECIFICATION
+   ========================================================================== */
+.canvas-viewport {
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  position: relative;
+  background: var(--color-background, #FFFFFF);
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.layer-bg { 
+  z-index: var(--z-bg); 
+  background-image: var(--bg-image-url, none);
+  background-size: cover; 
+  background-position: center; 
+}
+.layer-gradient-overlay { 
+  z-index: var(--z-gradient); 
+  background: var(--gradient-overlay-override, none);
+}
+.layer-decorative-shapes { z-index: var(--z-shapes); }
+.layer-composition-surface { z-index: var(--z-components); }
+.layer-safe-zone-overlay { z-index: var(--z-safezone); pointer-events: none; }
+
+/* ==========================================================================
+   04 DECORATIVE ENGINE SHAPES SYSTEM
+   ========================================================================== */
+.shape { position: absolute; }
+.vector-circle-top-right {
+  top: -10%; right: -10%; width: 650px; height: 650px; border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary, #EFA81D) 0%, transparent 70%);
+  opacity: 0.18;
+}
+.vector-diagonal-ribbon {
+  top: 18%; left: -10%; width: 140%; height: 110px;
+  background: var(--color-primary, #002875); transform: rotate(-3.5deg); opacity: 0.12;
+}
+.vector-accent-line {
+  bottom: 140px; left: var(--safe-left); width: 140px; height: 6px;
+  background: var(--color-secondary, #EFA81D);
+}
+
+/* ==========================================================================
+   05 COMPONENT LAYOUT RULES & CONSTRAINT CONTRACTS
+   ========================================================================== */
+.layer-logo { top: var(--safe-top); left: var(--safe-left); height: 70px; position: absolute; }
+.brand-logo-img { height: 100%; width: auto; object-fit: contain; }
+
+.layer-typography-matrix { top: 210px; left: var(--safe-left); right: var(--safe-right); position: absolute; }
+.render-headline { 
+  color: var(--color-surface, #FFF); 
+  font-size: var(--ts-headline, 4.4rem);
+  font-family: var(--typo-headline-family, sans-serif);
+  font-weight: var(--typo-headline-weight, 900);
+  line-height: var(--typo-headline-lineHeight, 0.95);
+  text-transform: var(--typo-headline-transform, uppercase);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.render-subheadline { 
+  color: var(--color-secondary, #EFA81D); 
+  font-size: var(--ts-subheadline, 2.15rem);
+  font-family: var(--typo-subHeadline-family, sans-serif);
+  font-weight: var(--typo-subHeadline-weight, 700);
+  margin-top: 0.75rem;
+}
+.render-caption { 
+  margin-top: 1.25rem; 
+  color: var(--color-surface, #FFF);
+  opacity: 0.9;
+  font-size: 1.25rem; 
+  max-width: 60%; 
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; 
+}
+
+.layer-feature-matrix { top: 660px; left: var(--safe-left); width: 50%; position: absolute; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+.feature-item { display: flex; align-items: center; gap: 0.85rem; color: #FFF; font-size: 1.3rem; font-weight: 600; }
+.feature-item .bullet { color: var(--color-secondary, #EFA81D); }
+
+.layer-cta { bottom: 220px; left: var(--safe-left); position: absolute; }
+.cta-button-element { 
+  display: inline-block; 
+  background: var(--color-surface, #FFF); 
+  color: var(--color-primaryDark, #000); 
+  padding: 1.25rem 3.5rem; 
+  font-size: 1.25rem; 
+  font-family: var(--typo-button-family, sans-serif);
+  font-weight: var(--typo-button-weight, 800);
+  text-transform: var(--typo-button-transform, uppercase);
+  border-radius: var(--radius-pill); 
+  box-shadow: var(--shadow-depth); 
+}
+
+.layer-contact-information { bottom: 140px; right: var(--safe-right); position: absolute; }
+.contact-grid { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-end; }
+.contact-node { color: #FFF; font-size: 1.05rem; font-weight: 700; background: rgba(0,0,0,0.35); padding: 0.5rem 1.25rem; border-radius: 8px; border-left: 4px solid var(--color-secondary, #EFA81D); }
+
+.layer-footer { top: auto; bottom: 0; width: 100%; height: 90px; position: absolute; background: var(--color-primaryDark, #001A4E); border-top: 4px solid var(--color-secondary, #EFA81D); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--safe-left); }
+.footer-meta-block { display: flex; gap: 2.5rem; color: rgba(255,255,255,0.7); font-size: 1rem; }
+.footer-corporate-tagline { color: var(--color-secondary, #EFA81D); font-weight: 800; text-transform: uppercase; font-size: 1rem; }
+
+/* ==========================================================================
+   06 PROFILE OVERRIDES (ADAPTIVE ENGINE GEOMETRIES)
+   ========================================================================== */
+html[data-profile="landscape"] {
+  --safe-top: 40px; --safe-bottom: 40px; --safe-left: 50px; --safe-right: 50px;
+  --ts-headline: 2.75rem; --ts-subheadline: 1.6rem;
+}
+html[data-profile="landscape"] .layer-typography-matrix { max-width: 55%; top: 130px; }
+html[data-profile="landscape"] .render-caption { max-width: 100%; }
+html[data-profile="landscape"] .layer-feature-matrix { top: 380px; width: 50%; }
+html[data-profile="landscape"] .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+html[data-profile="landscape"] .layer-cta { bottom: 130px; left: auto; right: var(--safe-right); }
+html[data-profile="landscape"] .layer-contact-information { bottom: auto; top: var(--safe-top); right: 50px; }
+html[data-profile="landscape"] .contact-grid { flex-direction: row; gap: 1rem; }
+
+html[data-profile="story"] { --safe-top: 140px; --safe-bottom: 140px; --ts-headline: 5rem; --ts-subheadline: 2.4rem; }
+html[data-profile="story"] .layer-typography-matrix { top: 340px; text-align: center; }
+html[data-profile="story"] .render-caption { max-width: 100%; }
+html[data-profile="story"] .layer-feature-matrix { top: 960px; width: 100%; padding: 0 var(--safe-left); }
+html[data-profile="story"] .feature-list { align-items: center; }
+html[data-profile="story"] .layer-cta { bottom: 340px; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
+html[data-profile="story"] .layer-contact-information { bottom: 240px; left: 50%; transform: translateX(-50%); width: 100%; }
+html[data-profile="story"] .contact-grid { flex-direction: row; justify-content: center; gap: 1rem; }
+
+.safe-zone-boundary { position: absolute; top: var(--safe-top); bottom: var(--safe-bottom); left: var(--safe-left); right: var(--safe-right); border: 2px dashed rgba(239, 168, 29, 0.4); display: none; }

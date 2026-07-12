@@ -1,0 +1,15 @@
+{
+  "themeName": "spread-light",
+  "colors": {
+    "primary": "#002875",
+    "primaryDark": "#001A4E",
+    "primaryLight": "#1A49A3",
+    "secondary": "#EFA81D",
+    "accent": "#0056B3",
+    "background": "#F4F7FC",
+    "surface": "#FFFFFF",
+    "text": "#0A192F",
+    "textMuted": "#606F7B",
+    "border": "#E2E8F0"
+  }
+}

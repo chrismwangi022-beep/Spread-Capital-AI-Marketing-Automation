@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "campaignId": "CMP-00026",
+    "campaignName": "Logbook Automation Pipeline Expansion",
+    "platform": "instagram-portrait",
+    "profile": "portrait",
+    "date": "2026-07-11",
+    "theme": "spread-light"
+  },
+  "renderProfile": {
+    "dpi": 300,
+    "quality": 100,
+    "format": "png",
+    "transparent": false
+  },
+  "brand": {
+    "logo": "../branding/logo.png"
+  },
+  "components": [
+    { "type": "logo", "id": "brandLogo", "visible": true },
+    { "type": "headline", "id": "mainHeadline", "visible": true },
+    { "type": "features", "id": "primaryFeatures", "visible": true },
+    { "type": "button", "id": "actionCTA", "visible": true },
+    { "type": "contact", "id": "omniChannels", "visible": true, "props": { "icons": { "phone": "📞", "whatsapp": "💬", "website": "🌐" } } },
+    { "type": "footer", "id": "systemFooter", "visible": true, "props": { "tagline": "SPREAD CAPITAL LTD" } }
+  ],
+  "data": {
+    "headline": "EARN 4% COMMISSION!",
+    "subHeadline": "Refer Logbook Loans Hassle-Free",
+    "caption": "Turn your network into extra income. Source clients seamlessly from anywhere with zero geographical limitations.",
+    "cta": "Get Started Now",
+    "features": [
+      "Up to KES 5 Million Fast",
+      "Flexible Repayment Period",
+      "Same Day Internal Approval",
+      "Competitive Interest Rates"
+    ],
+    "assets": {
+      "background": { "id": "bg_001", "src": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=1080", "type": "image" },
+      "overlay": "linear-gradient(135deg, rgba(0, 40, 117, 0.96) 0%, rgba(0, 26, 78, 0.85) 100%)"
+    },
+    "contact": {
+      "phone": "+254 712 336 666",
+      "whatsapp": "+254 715 179 599",
+      "website": "www.spreadcapital.co.ke",
+      "branch": "Nairobi HQ"
+    }
+  }
+}

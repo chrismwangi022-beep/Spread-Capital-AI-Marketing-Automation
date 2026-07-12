@@ -1,0 +1,149 @@
+{
+  "name": "03_Campaign_Builder_v1",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -272,
+        16
+      ],
+      "id": "855500b3-b036-41cd-9eeb-199d366f0413",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n\n  const data = item.json;\n\n  return {\n    json: {\n      campaignId: \"CMP-\" + data.ID.toString().padStart(5, \"0\"),\n      campaignName: data.Campaign,\n\n      profile:\n        data.Platform === \"TikTok\"\n          ? \"story\"\n          : \"portrait\",\n\n      platform:\n        data.Platform.toLowerCase(),\n\n      theme: \"spread-light\",\n\n      headline: data.Headline,\n\n      subHeadline: data[\"Sub Headline\"],\n\n      caption: data.Caption,\n\n      cta: data.CTA,\n\n      backgroundImage: data[\"Image URL\"],\n\n      overlayText: data[\"Overlay Text\"],\n\n      imageStyle: data[\"Image Style\"],\n\n      designStyle: data[\"Design Style\"],\n\n      hashtags: data.Hashtags,\n\n      product: data.Product,\n\n      audience: data.Audience,\n\n      goal: data.Goal,\n\n      date: data.Date\n    }\n  };\n\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        16
+      ],
+      "id": "1290ba55-c806-4873-951f-86c518e5bf89",
+      "name": "Normalize Campaign Payload"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const c = $json;\n\nreturn {\n  json: {\n    metadata: {\n      campaignId: c.campaignId,\n      campaignName: c.campaignName,\n      profile: c.profile,\n      platform: c.platform,\n      theme: c.theme,\n      date: c.date\n    },\n\n    renderProfile: {\n      dpi: 300,\n      format: \"png\",\n      transparent: false\n    },\n\n    brand: {\n      name: \"Spread Capital\",\n\n      logo: \"file:///opt/spread-capital/assets/branding/logo.png\"\n    },\n\n    data: {\n\n      headline: c.headline,\n\n      subHeadline: c.subHeadline,\n\n      caption: c.caption,\n\n      cta: c.cta,\n\n      features: [],\n\n      contact: {\n\n        phone: \"+254 709 877000\",\n\n        whatsapp: \"+254 709 877000\",\n\n        website: \"www.spreadcapital.co.ke\",\n\n        email: \"info@spreadcapital.co.ke\"\n\n      },\n\n      assets: {\n\n        background: {\n\n          src: c.backgroundImage || \"\"\n\n        }\n\n      }\n\n    },\n\n    components: [\n\n      { type: \"logo\" },\n\n      { type: \"headline\" },\n\n      { type: \"features\" },\n\n      { type: \"button\" },\n\n      { type: \"contact\" },\n\n      {\n        type: \"footer\",\n        props: {\n          tagline: \"FINANCING YOUR GROWTH\"\n        }\n      }\n\n    ]\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        160,
+        16
+      ],
+      "id": "ee530fa9-5544-4f82-b94e-8c6edc8666e4",
+      "name": "Build Render Payload"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.192.1:3001/render",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        656,
+        0
+      ],
+      "id": "78f069ee-7c6d-4b13-8304-8cec7c6afe48",
+      "name": "Render Poster API",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        432,
+        -16
+      ],
+      "id": "9eab957e-ff88-4939-b79e-4f22007db0f2",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Normalize Campaign Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Campaign Payload": {
+      "main": [
+        [
+          {
+            "node": "Build Render Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Render Payload": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Render Poster API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Render Poster API": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "97460bd3-afc2-4e98-a4f3-9e4dd5b07485",
+  "meta": {
+    "instanceId": "3bbed0e916b85e6a8cd0309c50c7f2678ea6fffdbbd9428c24b3063e898829be"
+  },
+  "nodeGroups": [],
+  "id": "cCa310Ov4bgrmAKD",
+  "tags": []
+}

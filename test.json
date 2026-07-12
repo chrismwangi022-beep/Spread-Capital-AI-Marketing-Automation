@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "campaignId": "CMP-00001",
+    "campaignName": "Test Campaign",
+    "profile": "portrait",
+    "platform": "facebook",
+    "theme": "spread-light",
+    "date": "2026-07-12"
+  },
+  "renderProfile": {
+    "dpi": 300,
+    "format": "png",
+    "transparent": false
+  },
+  "brand": {
+    "name": "Spread Capital",
+    "logo": "file:///opt/spread-capital/assets/branding/logo.png"
+  },
+  "data": {
+    "headline": "Testing Renderer",
+    "subHeadline": "API Test",
+    "caption": "Testing the rendering API.",
+    "cta": "Apply Today",
+    "features": [],
+    "contact": {
+      "phone": "+254709877000",
+      "whatsapp": "+254709877000",
+      "website": "www.spreadcapital.co.ke",
+      "email": "info@spreadcapital.co.ke"
+    },
+    "assets": {
+      "background": {
+        "src": ""
+      }
+    }
+  },
+  "components": [
+    { "type": "logo" },
+    { "type": "headline" },
+    { "type": "button" },
+    { "type": "contact" },
+    {
+      "type": "footer",
+      "props": {
+        "tagline": "FINANCING YOUR GROWTH"
+      }
+    }
+  ]
+}

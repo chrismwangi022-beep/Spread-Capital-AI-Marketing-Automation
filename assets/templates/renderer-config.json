@@ -1,0 +1,14 @@
+{
+  "engine": {
+    "name": "Spread Creative Engine",
+    "version": "1.0.0",
+    "renderer": "puppeteer",
+    "waitTimeout": 5000,
+    "safeZonePreview": false,
+    "debugMode": false,
+    "waitForFonts": true,
+    "background": "white",
+    "imageFormat": "png",
+    "defaultDPI": 300
+  }
+}

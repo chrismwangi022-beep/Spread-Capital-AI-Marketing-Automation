@@ -1,5 +1,5 @@
 {
-  "name": "01 - AI Content Generator",
+  "name": "01_Content_Generator_v1",
   "nodes": [
     {
       "parameters": {},
@@ -55,7 +55,7 @@
         "messages": {
           "values": [
             {
-              "content": "=You are a senior marketing copywriter for Spread Capital, a Kenyan financial services company.\n\nUsing the campaign information below, generate a professional Facebook marketing post.\n\nCampaign Information:\n- Campaign: {{$json.Campaign}}\n- Product: {{$json.Product}}\n- Audience: {{$json.Audience}}\n- Platform: {{$json.Platform}}\n- Topic: {{$json.Topic}}\n- Goal: {{$json.Goal}}\n- CTA: {{$json.CTA}}\n- Image Style: {{$json[\"Image Style\"]}}\n\nRequirements:\n- Write an engaging Facebook caption (100–150 words).\n- Write a detailed AI image prompt suitable for image generation.\n- Generate 5 relevant hashtags.\n- Keep the tone professional, trustworthy, and encouraging.\n- Focus on Kenyan SMEs and business growth.\n- Do not mention that the content was AI-generated.\n\nReturn ONLY raw JSON.\n\nDo NOT wrap the JSON in markdown.\n\nDo NOT use ```json.\n\nDo NOT add explanations.\n\nThe first character of your response must be {\n\nThe last character must be }\n\nReturn exactly this schema:\n\n{\n  \"caption\": \"\",\n  \"imagePrompt\": \"\",\n  \"hashtags\": [],\n  \"cta\": \"\"\n}"
+              "content": "=You are the AI Marketing Manager for Spread Capital, a Kenyan financial institution.\n\nGenerate a complete marketing campaign for the information below.\n\nCampaign: {{ $('Get row(s) in sheet').item.json.Campaign }}\n\nProduct: {{ $('Get row(s) in sheet').item.json.Product }}\n\nAudience: {{ $('Get row(s) in sheet').item.json.Audience }}\n\nPlatform: {{ $('Get row(s) in sheet').item.json.Platform }}\n\nTopic: {{ $('Get row(s) in sheet').item.json.Topic }}\n\nGoal: {{ $('Get row(s) in sheet').item.json.Goal }}\n\nCTA: {{ $('Get row(s) in sheet').item.json.CTA }}\n\nImage Style: {{ $('Get row(s) in sheet').item.json[\"Image Style\"] }}\n\nReturn ONLY valid JSON.\n\n{\n  \"headline\": \"\",\n  \"subHeadline\": \"\",\n  \"caption\": \"\",\n  \"imagePrompt\": \"\",\n  \"overlayText\": \"\",\n  \"designStyle\": \"\",\n  \"imageType\": \"\",\n  \"hashtags\": [],\n  \"cta\": \"\"\n}\n\nRules:\n\nCreate a short, bold headline.\n\nCreate a supporting sub headline.\n\nCaption should be engaging and professional.\n\nThe image prompt should describe a realistic Kenyan marketing scene suitable for advertising.\n\nOverlay text should be short enough to appear on the poster.\n\nDesign style should describe the overall visual style.\n\nImage type should be one of:\nOffice\nBusiness Meeting\nConstruction\nRetail\nAgriculture\nTransport\nTechnology\nCorporate\nEntrepreneur\n\nReturn ONLY JSON."
             }
           ]
         },
@@ -79,7 +79,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const response = $('Message a model').first().json.content.parts[0].text;\n\nconst data = JSON.parse(response);\n\nconst original = $('Get row(s) in sheet').first().json;\n\nreturn [\n  {\n    json: {\n      ID: original.ID,\n      \"Caption\": data.caption,\n      \"Image Prompt\": data.imagePrompt,\n      \"Hashtags\": data.hashtags.join(\" \"),\n      \"CTA\": data.cta\n    }\n  }\n];"
+        "jsCode": "// Get the AI response\nlet response = $('Message a model').first().json.content.parts[0].text;\n\n// Remove Markdown code fences if Gemini added them\nresponse = response\n  .replace(/```json/g, \"\")\n  .replace(/```/g, \"\")\n  .trim();\n\n// Parse the cleaned JSON\nconst data = JSON.parse(response);\n\n// Original Google Sheets row\nconst original = $('Get row(s) in sheet').first().json;\n\n// Return structured data\nreturn [\n  {\n    json: {\n      ID: original.ID,\n\n      \"Headline\": data.headline,\n      \"Sub Headline\": data.subHeadline,\n      \"Caption\": data.caption,\n      \"Image Prompt\": data.imagePrompt,\n      \"Overlay Text\": data.overlayText,\n      \"Design Style\": data.designStyle,\n      \"Image Type\": data.imageType,\n      \"Hashtags\": data.hashtags.join(\" \"),\n      \"CTA\": data.cta,\n\n      \"AI Generated\": \"Yes\",\n      \"Processing Stage\": \"Content Generated\"\n    }\n  }\n];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -387,9 +387,10 @@
   "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate"
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
-  "versionId": "edaf04d4-98e8-415f-a7d8-d31b0e2ecb22",
+  "versionId": "2557bf44-ec42-4e37-99c0-c48709bf41e6",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "3bbed0e916b85e6a8cd0309c50c7f2678ea6fffdbbd9428c24b3063e898829be"

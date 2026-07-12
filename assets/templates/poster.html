@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Graphics Engine Viewport Pipeline</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="poster.css">
+</head>
+<body class="engine-renderer">
+
+  <div id="canvas-viewport" class="canvas-viewport">
+    <div id="layer-bg" class="layer layer-bg"></div>
+    <div id="layer-gradient-overlay" class="layer layer-gradient-overlay"></div>
+    
+    <div class="layer layer-decorative-shapes">
+      <div class="shape vector-circle-top-right"></div>
+      <div class="shape vector-diagonal-ribbon"></div>
+      <div class="shape vector-accent-line"></div>
+    </div>
+
+    <div id="composition-surface" class="layer layer-composition-surface"></div>
+
+    <div id="safe-zone" class="layer layer-safe-zone-overlay">
+      <div class="safe-zone-boundary"></div>
+    </div>
+  </div>
+
+  <template id="tpl-logo">
+    <div class="layer layer-logo">
+      <img class="brand-logo-img" src="" alt="Identity Component">
+    </div>
+  </template>
+
+  <template id="tpl-headline">
+    <div class="layer layer-typography-matrix">
+      <h1 class="render-headline"></h1>
+      <h2 class="render-subheadline"></h2>
+      <p class="render-caption"></p>
+    </div>
+  </template>
+
+  <template id="tpl-features">
+    <div class="layer layer-feature-matrix">
+      <ul class="feature-list"></ul>
+    </div>
+  </template>
+
+  <template id="tpl-button">
+    <div class="layer layer-cta">
+      <div class="cta-button-element"></div>
+    </div>
+  </template>
+
+  <template id="tpl-contact">
+    <div class="layer layer-contact-information">
+      <div class="contact-grid"></div>
+    </div>
+  </template>
+
+  <template id="tpl-footer">
+    <div class="layer layer-footer">
+      <div class="footer-meta-block">
+        <span class="meta-branch-tag"></span>
+        <span class="meta-date-stamp"></span>
+      </div>
+      <div class="footer-corporate-tagline"></div>
+    </div>
+  </template>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

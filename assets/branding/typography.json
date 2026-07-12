@@ -1,0 +1,6 @@
+{
+  "headline": { "family": "sans-serif", "weight": "900", "lineHeight": "0.95", "transform": "uppercase" },
+  "subHeadline": { "family": "sans-serif", "weight": "700", "lineHeight": "1.2", "transform": "none" },
+  "body": {  "family": "sans-serif", "weight": "500", "lineHeight": "1.5" },
+  "button": { "family": "sans-serif", "weight": "800", "transform": "uppercase" }
+}

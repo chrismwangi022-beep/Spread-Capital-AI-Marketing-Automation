@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Generated images
+assets/generated/images/*
+
+# Generated exports
+assets/generated/exports/*
+
+# Generated metadata
+assets/generated/metadata/manifest.json
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
