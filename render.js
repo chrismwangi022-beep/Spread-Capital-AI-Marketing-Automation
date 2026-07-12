@@ -51,6 +51,11 @@ async function loadCampaign(flags) {
         console.log("[Platform Core] Loading campaign...");
 
         const campaign = await loadCampaign(flags);
+        await fs.writeFile(
+    path.join(__dirname, "debug-campaign.json"),
+    JSON.stringify(campaign, null, 2)
+);
+        console.log(JSON.stringify(campaign.brand, null, 2));
 
         const safeFileName = campaign.metadata.campaignName
             .toLowerCase()

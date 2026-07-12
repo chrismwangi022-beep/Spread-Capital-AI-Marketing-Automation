@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "campaignId": "CMP-00004",
+    "campaignName": "July Referral Awareness Campaign",
+    "profile": "story",
+    "platform": "tiktok",
+    "theme": "spread-light",
+    "date": "2026-07-12"
+  },
+  "renderProfile": {
+    "dpi": 300,
+    "format": "png",
+    "transparent": false
+  },
+  "brand": {
+    "name": "Spread Capital",
+    "logo": "file:///opt/spread-capital/assets/branding/logo.png"
+  },
+  "data": {
+    "headline": "Your Contacts Could Earn You Money",
+    "subHeadline": "Spread Capital Pays 4% Commission For Successful Referrals",
+    "caption": "Someone in your network could need financing today. Refer them to Spread Capital and earn 4% commission when their loan is successfully disbursed. Simple referrals, real rewards.",
+    "cta": "Refer And Earn",
+    "features": [],
+    "contact": {
+      "phone": "+254 709 877000",
+      "whatsapp": "+254 709 877000",
+      "website": "www.spreadcapital.co.ke",
+      "email": "info@spreadcapital.co.ke"
+    },
+    "assets": {
+      "background": {
+        "src": ""
+      }
+    }
+  },
+  "components": [
+    {
+      "type": "logo"
+    },
+    {
+      "type": "headline"
+    },
+    {
+      "type": "features"
+    },
+    {
+      "type": "button"
+    },
+    {
+      "type": "contact"
+    },
+    {
+      "type": "footer",
+      "props": {
+        "tagline": "FINANCING YOUR GROWTH"
+      }
+    }
+  ]
+}

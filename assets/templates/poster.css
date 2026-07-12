@@ -1,174 +1,1212 @@
-/* ==========================================================================
-   01 GRAPHICS COMPOSITOR FRAMEWORK BASE RESET
-   ========================================================================== */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-body.engine-renderer {
-  background: #03050C;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  overflow: hidden;
-  font-family: var(--typo-body-family, sans-serif);
-}
+/* ========================================================================
+   SPREAD CAPITAL DESIGN SYSTEM v2.0
+   Graphics Rendering Engine
+   Foundation Layer
+   ======================================================================== */
 
-/* ==========================================================================
-   02 INITIAL ENGINE PARAMETRIC TOKENS
-   ========================================================================== */
-:root {
-  --canvas-w: 1080px;
-  --canvas-h: 1350px;
-  --safe-top: 60px;
-  --safe-bottom: 60px;
-  --safe-left: 60px;
-  --safe-right: 60px;
 
-  --z-bg: 10;
-  --z-gradient: 20;
-  --z-shapes: 30;
-  --z-components: 50;
-  --z-safezone: 999;
+/* ========================================================================
+   01 RESET
+   ======================================================================== */
 
-  --radius-pill: 9999px;
-  --radius-card: 24px;
-  --shadow-depth: 0 30px 60px rgba(0,0,0,0.4);
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* ==========================================================================
-   03 CANVAS GRAPHICS VIEWPORT SPECIFICATION
-   ========================================================================== */
-.canvas-viewport {
-  width: var(--canvas-w);
-  height: var(--canvas-h);
-  position: relative;
-  background: var(--color-background, #FFFFFF);
-  overflow: hidden;
+html,
+body{
+    width:100%;
+    height:100%;
 }
 
-.layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.layer-bg { 
-  z-index: var(--z-bg); 
-  background-image: var(--bg-image-url, none);
-  background-size: cover; 
-  background-position: center; 
-}
-.layer-gradient-overlay { 
-  z-index: var(--z-gradient); 
-  background: var(--gradient-overlay-override, none);
-}
-.layer-decorative-shapes { z-index: var(--z-shapes); }
-.layer-composition-surface { z-index: var(--z-components); }
-.layer-safe-zone-overlay { z-index: var(--z-safezone); pointer-events: none; }
+body{
 
-/* ==========================================================================
-   04 DECORATIVE ENGINE SHAPES SYSTEM
-   ========================================================================== */
-.shape { position: absolute; }
-.vector-circle-top-right {
-  top: -10%; right: -10%; width: 650px; height: 650px; border-radius: 50%;
-  background: radial-gradient(circle, var(--color-secondary, #EFA81D) 0%, transparent 70%);
-  opacity: 0.18;
-}
-.vector-diagonal-ribbon {
-  top: 18%; left: -10%; width: 140%; height: 110px;
-  background: var(--color-primary, #002875); transform: rotate(-3.5deg); opacity: 0.12;
-}
-.vector-accent-line {
-  bottom: 140px; left: var(--safe-left); width: 140px; height: 6px;
-  background: var(--color-secondary, #EFA81D);
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    background:#111;
+
+    font-family:
+        "Montserrat",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+
 }
 
-/* ==========================================================================
-   05 COMPONENT LAYOUT RULES & CONSTRAINT CONTRACTS
-   ========================================================================== */
-.layer-logo { top: var(--safe-top); left: var(--safe-left); height: 70px; position: absolute; }
-.brand-logo-img { height: 100%; width: auto; object-fit: contain; }
 
-.layer-typography-matrix { top: 210px; left: var(--safe-left); right: var(--safe-right); position: absolute; }
-.render-headline { 
-  color: var(--color-surface, #FFF); 
-  font-size: var(--ts-headline, 4.4rem);
-  font-family: var(--typo-headline-family, sans-serif);
-  font-weight: var(--typo-headline-weight, 900);
-  line-height: var(--typo-headline-lineHeight, 0.95);
-  text-transform: var(--typo-headline-transform, uppercase);
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+/* ========================================================================
+   02 DESIGN TOKENS
+   ======================================================================== */
+
+:root{
+
+    /* Canvas */
+
+    --canvas-width:1080px;
+    --canvas-height:1350px;
+
+    /* Brand */
+
+    --brand-blue:#0A3D91;
+    --brand-blue-dark:#052A67;
+    --brand-gold:#F4B223;
+    --brand-white:#FFFFFF;
+
+    /* Text */
+
+    --text-dark:#1D2A39;
+    --text-grey:#5C6773;
+
+    /* Layout */
+
+    --safe-left:72px;
+    --safe-right:72px;
+    --safe-top:28px;
+    --safe-bottom:48px;
+
+    --header-height:180px;
+
+    --footer-height:165px;
+
+    --column-gap:42px;
+
+    /* Radius */
+
+    --radius-small:10px;
+    --radius-medium:20px;
+    --radius-large:40px;
+    --radius-pill:999px;
+
+    /* Shadows */
+
+    --shadow-soft:
+        0 12px 32px rgba(0,0,0,.12);
+
+    --shadow-medium:
+        0 20px 48px rgba(0,0,0,.18);
+
+    /* Animation */
+
+    --transition:
+        all .25s ease;
+
 }
-.render-subheadline { 
-  color: var(--color-secondary, #EFA81D); 
-  font-size: var(--ts-subheadline, 2.15rem);
-  font-family: var(--typo-subHeadline-family, sans-serif);
-  font-weight: var(--typo-subHeadline-weight, 700);
-  margin-top: 0.75rem;
-}
-.render-caption { 
-  margin-top: 1.25rem; 
-  color: var(--color-surface, #FFF);
-  opacity: 0.9;
-  font-size: 1.25rem; 
-  max-width: 60%; 
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; 
-}
 
-.layer-feature-matrix { top: 660px; left: var(--safe-left); width: 50%; position: absolute; }
-.feature-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
-.feature-item { display: flex; align-items: center; gap: 0.85rem; color: #FFF; font-size: 1.3rem; font-weight: 600; }
-.feature-item .bullet { color: var(--color-secondary, #EFA81D); }
 
-.layer-cta { bottom: 220px; left: var(--safe-left); position: absolute; }
-.cta-button-element { 
-  display: inline-block; 
-  background: var(--color-surface, #FFF); 
-  color: var(--color-primaryDark, #000); 
-  padding: 1.25rem 3.5rem; 
-  font-size: 1.25rem; 
-  font-family: var(--typo-button-family, sans-serif);
-  font-weight: var(--typo-button-weight, 800);
-  text-transform: var(--typo-button-transform, uppercase);
-  border-radius: var(--radius-pill); 
-  box-shadow: var(--shadow-depth); 
+/* ========================================================================
+   03 MAIN CANVAS
+   ======================================================================== */
+
+#canvas-viewport{
+
+    position:relative;
+
+    width:var(--canvas-width);
+
+    height:var(--canvas-height);
+
+    overflow:hidden;
+
+    background:#ffffff;
+
 }
 
-.layer-contact-information { bottom: 140px; right: var(--safe-right); position: absolute; }
-.contact-grid { display: flex; flex-direction: column; gap: 0.65rem; align-items: flex-end; }
-.contact-node { color: #FFF; font-size: 1.05rem; font-weight: 700; background: rgba(0,0,0,0.35); padding: 0.5rem 1.25rem; border-radius: 8px; border-left: 4px solid var(--color-secondary, #EFA81D); }
 
-.layer-footer { top: auto; bottom: 0; width: 100%; height: 90px; position: absolute; background: var(--color-primaryDark, #001A4E); border-top: 4px solid var(--color-secondary, #EFA81D); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--safe-left); }
-.footer-meta-block { display: flex; gap: 2.5rem; color: rgba(255,255,255,0.7); font-size: 1rem; }
-.footer-corporate-tagline { color: var(--color-secondary, #EFA81D); font-weight: 800; text-transform: uppercase; font-size: 1rem; }
+/* ========================================================================
+   04 BACKGROUND LAYERS
+   ======================================================================== */
 
-/* ==========================================================================
-   06 PROFILE OVERRIDES (ADAPTIVE ENGINE GEOMETRIES)
-   ========================================================================== */
-html[data-profile="landscape"] {
-  --safe-top: 40px; --safe-bottom: 40px; --safe-left: 50px; --safe-right: 50px;
-  --ts-headline: 2.75rem; --ts-subheadline: 1.6rem;
+#background-zone{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:1;
+
+    background-size:cover;
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
 }
-html[data-profile="landscape"] .layer-typography-matrix { max-width: 55%; top: 130px; }
-html[data-profile="landscape"] .render-caption { max-width: 100%; }
-html[data-profile="landscape"] .layer-feature-matrix { top: 380px; width: 50%; }
-html[data-profile="landscape"] .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-html[data-profile="landscape"] .layer-cta { bottom: 130px; left: auto; right: var(--safe-right); }
-html[data-profile="landscape"] .layer-contact-information { bottom: auto; top: var(--safe-top); right: 50px; }
-html[data-profile="landscape"] .contact-grid { flex-direction: row; gap: 1rem; }
 
-html[data-profile="story"] { --safe-top: 140px; --safe-bottom: 140px; --ts-headline: 5rem; --ts-subheadline: 2.4rem; }
-html[data-profile="story"] .layer-typography-matrix { top: 340px; text-align: center; }
-html[data-profile="story"] .render-caption { max-width: 100%; }
-html[data-profile="story"] .layer-feature-matrix { top: 960px; width: 100%; padding: 0 var(--safe-left); }
-html[data-profile="story"] .feature-list { align-items: center; }
-html[data-profile="story"] .layer-cta { bottom: 340px; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
-html[data-profile="story"] .layer-contact-information { bottom: 240px; left: 50%; transform: translateX(-50%); width: 100%; }
-html[data-profile="story"] .contact-grid { flex-direction: row; justify-content: center; gap: 1rem; }
 
-.safe-zone-boundary { position: absolute; top: var(--safe-top); bottom: var(--safe-bottom); left: var(--safe-left); right: var(--safe-right); border: 2px dashed rgba(239, 168, 29, 0.4); display: none; }
+#overlay-zone{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:2;
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            rgba(255,255,255,.98) 0%,
+
+            rgba(255,255,255,.96) 30%,
+
+            rgba(255,255,255,.90) 48%,
+
+            rgba(255,255,255,.35) 68%,
+
+            rgba(255,255,255,0) 82%
+
+        );
+
+}
+
+
+/* Decorative Gold Circle */
+
+.gold-circle{
+
+    position:absolute;
+
+    top:-180px;
+
+    right:-180px;
+
+    width:540px;
+
+    height:540px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(
+
+            circle,
+
+            rgba(244,178,35,.28),
+
+            rgba(244,178,35,.08),
+
+            transparent 72%
+
+        );
+
+}
+
+
+/* Decorative Blue Wave */
+
+.blue-wave{
+
+    position:absolute;
+
+    left:-260px;
+
+    bottom:-210px;
+
+    width:940px;
+
+    height:420px;
+
+    background:var(--brand-blue);
+
+    opacity:.07;
+
+    border-radius:50%;
+
+    transform:rotate(-9deg);
+
+}
+
+
+/* Decorative Accent Line */
+
+.gold-line{
+
+    position:absolute;
+
+    left:72px;
+
+    bottom:200px;
+
+    width:180px;
+
+    height:8px;
+
+    border-radius:999px;
+
+    background:var(--brand-gold);
+
+}
+
+
+/* ========================================================================
+   05 MASTER GRID
+   ======================================================================== */
+
+#poster-grid{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:10;
+
+    display:grid;
+
+    grid-template-columns:
+
+        56%
+
+        44%;
+
+    grid-template-rows:
+
+        180px
+
+        1fr
+
+        165px;
+
+    grid-template-areas:
+
+        "header header"
+
+        "content hero"
+
+        "footer footer";
+
+    padding:
+
+        var(--safe-top)
+
+        var(--safe-right)
+
+        0
+
+        var(--safe-left);
+
+    column-gap:var(--column-gap);
+
+}
+
+
+/* Grid Areas */
+
+#header-zone{
+
+    grid-area:header;
+
+    position:relative;
+
+}
+
+#content-zone{
+
+    grid-area:content;
+
+    position:relative;
+
+}
+
+#hero-zone{
+
+    grid-area:hero;
+
+    position:relative;
+
+}
+
+#footer-zone{
+
+    grid-area:footer;
+
+    position:relative;
+
+}
+
+/* ========================================================================
+   06 HEADER
+   ======================================================================== */
+
+#header-zone{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    position:relative;
+
+}
+
+
+/* ========================================================================
+   07 BRAND LOGO
+   ======================================================================== */
+
+#brand-zone{
+
+    width:540px;
+
+    margin-top:-18px;
+
+    margin-left:0;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:flex-start;
+
+    z-index:100;
+
+}
+
+.brand-logo-img{
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+    object-fit:contain;
+
+    object-position:left top;
+
+}
+
+
+/* ========================================================================
+   08 CONTENT COLUMN
+   ======================================================================== */
+
+#content-zone{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    padding-top:12px;
+
+    padding-right:35px;
+
+}
+
+
+/* ========================================================================
+   09 HEADLINE
+   ======================================================================== */
+
+.render-headline{
+
+    color:var(--brand-blue);
+
+    font-size:74px;
+
+    font-weight:900;
+
+    line-height:.92;
+
+    letter-spacing:-2.2px;
+
+    max-width:100%;
+
+    text-wrap:balance;
+
+}
+
+
+/* ========================================================================
+   10 SUB HEADLINE
+   ======================================================================== */
+
+.render-subheadline{
+
+    margin-top:18px;
+
+    color:var(--brand-gold);
+
+    font-size:34px;
+
+    font-weight:700;
+
+    line-height:1.18;
+
+    letter-spacing:-.4px;
+
+}
+
+
+/* ========================================================================
+   11 CAPTION
+   ======================================================================== */
+
+.render-caption{
+
+    margin-top:28px;
+
+    font-size:23px;
+
+    line-height:1.65;
+
+    color:var(--text-grey);
+
+    max-width:92%;
+
+}
+
+
+/* ========================================================================
+   12 FEATURES
+   ======================================================================== */
+
+.feature-list{
+
+    list-style:none;
+
+    margin-top:36px;
+
+}
+
+.feature-item{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    font-size:22px;
+
+    color:var(--text-dark);
+
+    font-weight:600;
+
+}
+
+.feature-item .bullet{
+
+    color:var(--brand-gold);
+
+    font-size:22px;
+
+}
+
+
+/* ========================================================================
+   13 CTA
+   ======================================================================== */
+
+#cta-zone{
+
+    margin-top:42px;
+
+}
+
+.cta-button-element{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:320px;
+
+    padding:22px 54px;
+
+    border-radius:999px;
+
+    background:var(--brand-blue);
+
+    color:white;
+
+    font-size:25px;
+
+    font-weight:800;
+
+    letter-spacing:.6px;
+
+    box-shadow:var(--shadow-medium);
+
+}
+
+
+/* ========================================================================
+   14 HERO COLUMN
+   ======================================================================== */
+
+#hero-zone{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    align-items:flex-end;
+
+    position:relative;
+
+}
+
+
+/* ========================================================================
+   15 HERO IMAGE
+   ======================================================================== */
+
+.hero-image{
+
+    display:block;
+
+    width:100%;
+
+    max-width:560px;
+
+    max-height:980px;
+
+    object-fit:contain;
+
+    object-position:bottom center;
+
+}
+
+
+/* ========================================================================
+   HERO PLACEHOLDER
+   ======================================================================== */
+
+.hero-placeholder{
+
+    width:100%;
+
+    height:900px;
+
+    border-radius:28px;
+
+    background:
+
+    linear-gradient(
+
+        180deg,
+
+        rgba(8,58,141,.04),
+
+        rgba(8,58,141,.01)
+
+    );
+
+}
+
+
+/* ========================================================================
+   16 FOOTER LAYOUT
+   ======================================================================== */
+
+#footer-zone{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-end;
+
+    width:100%;
+
+}
+
+
+/* ========================================================================
+   17 CONTACT RIBBON
+   ======================================================================== */
+
+#contact-zone{
+
+    width:100%;
+
+}
+
+.contact-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    align-items:center;
+
+    background:var(--brand-blue-dark);
+
+    padding:20px 40px;
+
+    gap:18px;
+
+    min-height:82px;
+
+}
+
+.contact-node{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+.contact-node .icon{
+
+    color:var(--brand-gold);
+
+    font-size:20px;
+
+}
+
+
+/* ========================================================================
+   18 GOLD FOOTER BAR
+   ======================================================================== */
+
+.footer-bar{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:var(--brand-gold);
+
+    color:var(--brand-blue-dark);
+
+    height:54px;
+
+    font-size:22px;
+
+    font-weight:800;
+
+    letter-spacing:.8px;
+
+    text-transform:uppercase;
+
+}
+
+
+/* ========================================================================
+   19 REMOVE ENGINE META
+   ======================================================================== */
+
+.footer-meta-block{
+
+    display:none !important;
+
+}
+
+.meta-branch-tag{
+
+    display:none !important;
+
+}
+
+.meta-date-stamp{
+
+    display:none !important;
+
+}
+
+
+/* ========================================================================
+   20 FOOTER TAGLINE
+   ======================================================================== */
+
+.footer-corporate-tagline{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:100%;
+
+    text-align:center;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+}
+
+
+/* ========================================================================
+   21 CONTACT HOVER (future web preview)
+   ======================================================================== */
+
+.contact-node{
+
+    transition:var(--transition);
+
+}
+
+.contact-node:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+/* ========================================================================
+   22 VISUAL POLISH
+   ======================================================================== */
+
+.render-headline{
+
+    text-shadow:
+
+        0 2px 0 rgba(255,255,255,.35);
+
+}
+
+.cta-button-element{
+
+    transition:var(--transition);
+
+}
+
+.cta-button-element:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.brand-logo-img{
+
+    filter:
+
+        drop-shadow(0 6px 14px rgba(0,0,0,.10));
+
+}
+
+.hero-image{
+
+    filter:
+
+        drop-shadow(0 18px 34px rgba(0,0,0,.18));
+
+}
+
+
+/* ========================================================================
+   23 LAYER ORDER
+   ======================================================================== */
+
+#header-zone{
+
+    z-index:100;
+
+}
+
+#content-zone{
+
+    z-index:90;
+
+}
+
+#hero-zone{
+
+    z-index:80;
+
+}
+
+#footer-zone{
+
+    z-index:120;
+
+}
+
+
+/* ========================================================================
+   24 SAFE AREA HELPERS
+   ======================================================================== */
+
+.hidden{
+
+    display:none !important;
+
+}
+
+.center{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.text-center{
+
+    text-align:center;
+
+}
+
+
+/* ========================================================================
+   25 RESPONSIVE PROFILES
+   ======================================================================== */
+
+/* -----------------------------
+   STORY (1080 × 1920)
+-------------------------------- */
+
+html[data-profile="story"]{
+
+    --canvas-width:1080px;
+    --canvas-height:1920px;
+
+    --header-height:230px;
+
+}
+
+html[data-profile="story"] #poster-grid{
+
+    grid-template-columns:1fr;
+
+    grid-template-rows:
+
+        210px
+        auto
+        720px
+        170px;
+
+    grid-template-areas:
+
+        "header"
+        "content"
+        "hero"
+        "footer";
+
+}
+
+html[data-profile="story"] #brand-zone{
+
+    width:620px;
+
+    margin:auto;
+
+}
+
+html[data-profile="story"] #content-zone{
+
+    padding:0 70px;
+
+    text-align:center;
+
+}
+
+html[data-profile="story"] .render-caption{
+
+    max-width:100%;
+
+}
+
+html[data-profile="story"] #hero-zone{
+
+    justify-content:center;
+
+}
+
+html[data-profile="story"] .hero-image{
+
+    max-width:720px;
+
+}
+
+
+/* -----------------------------
+   LANDSCAPE
+-------------------------------- */
+
+html[data-profile="landscape"]{
+
+    --canvas-width:1920px;
+    --canvas-height:1080px;
+
+}
+
+html[data-profile="landscape"] #poster-grid{
+
+    grid-template-columns:52% 48%;
+
+    grid-template-rows:
+
+        170px
+        auto
+        120px;
+
+}
+
+html[data-profile="landscape"] #brand-zone{
+
+    width:500px;
+
+}
+
+html[data-profile="landscape"] .render-headline{
+
+    font-size:66px;
+
+}
+
+html[data-profile="landscape"] .hero-image{
+
+    max-height:820px;
+
+}
+
+
+/* -----------------------------
+   PORTRAIT
+-------------------------------- */
+
+html[data-profile="portrait"]{
+
+    --canvas-width:1080px;
+    --canvas-height:1350px;
+
+}
+
+
+/* ========================================================================
+   26 TYPOGRAPHY IMPROVEMENTS
+   ======================================================================== */
+
+.render-headline{
+
+    max-width:95%;
+
+    word-break:normal;
+
+    overflow-wrap:break-word;
+
+}
+
+.render-subheadline{
+
+    max-width:95%;
+
+}
+
+.render-caption{
+
+    max-width:90%;
+
+}
+
+
+/* ========================================================================
+   27 LOGO PROTECTION
+   ======================================================================== */
+
+#brand-zone{
+
+    flex-shrink:0;
+
+}
+
+.brand-logo-img{
+
+    max-width:100%;
+
+    max-height:170px;
+
+}
+
+
+/* ========================================================================
+   28 HERO IMAGE PROTECTION
+   ======================================================================== */
+
+.hero-image{
+
+    width:100%;
+
+    height:auto;
+
+    object-fit:contain;
+
+    object-position:bottom center;
+
+}
+
+
+/* ========================================================================
+   29 CTA POLISH
+   ======================================================================== */
+
+.cta-button-element{
+
+    cursor:default;
+
+    border:none;
+
+}
+
+.cta-button-element::after{
+
+    content:"";
+
+}
+
+
+/* ========================================================================
+   30 RENDER QUALITY
+   ======================================================================== */
+
+img{
+
+    image-rendering:auto;
+
+}
+
+body{
+
+    -webkit-font-smoothing:antialiased;
+
+    -moz-osx-font-smoothing:grayscale;
+
+}
+
+
+/* ========================================================================
+   31 EXPORT STABILITY
+   ======================================================================== */
+
+#canvas-viewport{
+
+    isolation:isolate;
+
+}
+
+#poster-grid{
+
+    overflow:hidden;
+
+}
+
+.hero-image{
+
+    overflow:hidden;
+
+}
+
+
+/* ========================================================================
+   32 FUTURE AI IMAGE SUPPORT
+   ======================================================================== */
+
+.hero-image{
+
+    background-position:center bottom;
+
+    background-repeat:no-repeat;
+
+    background-size:contain;
+
+}
+
+
+/* ========================================================================
+   33 FINAL SPACING ADJUSTMENTS
+   ======================================================================== */
+
+#content-zone{
+
+    padding-top:20px;
+
+}
+
+.render-headline{
+
+    margin-bottom:18px;
+
+}
+
+.render-caption{
+
+    margin-bottom:10px;
+
+}
+
+.feature-list{
+
+    margin-bottom:40px;
+
+}
+
+#footer-zone{
+
+    margin-top:auto;
+
+}
+
+
+/* ========================================================================
+   34 DEBUG MODE
+   Uncomment when adjusting layouts
+   ======================================================================== */
+
+/*
+
+#header-zone{
+outline:2px solid red;
+}
+
+#content-zone{
+outline:2px solid blue;
+}
+
+#hero-zone{
+outline:2px solid green;
+}
+
+#footer-zone{
+outline:2px solid orange;
+}
+
+*/
+
+
+/* ========================================================================
+   END OF SPREAD CAPITAL DESIGN SYSTEM v2
+   ======================================================================== */

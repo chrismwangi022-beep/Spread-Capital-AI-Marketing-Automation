@@ -1,243 +1,500 @@
 /**
- * THE GRAPHICS RENDERING SYSTEM ENGINE PLATFORM
- * Core Engine Model: Unified Pure State Runtime Matrix
+ * ==========================================================
+ * Spread Capital Graphics Engine v2
+ * Foundation Layer
+ * ==========================================================
  */
 
 class RenderContext {
-  constructor(payload) {
-    this.schemaVersion = payload.schemaVersion;
-    this.metadata = payload.metadata;
-    this.brand = payload.brand;
-    this.theme = payload.injectedTheme;
-    this.typography = payload.injectedTypography;
-    this.layout = payload.injectedLayout;
-    this.config = payload.injectedConfig;
-    this.components = payload.components;
-    this.data = payload.data;
-  }
+
+    constructor(payload){
+
+        this.metadata=payload.metadata || {};
+
+        this.brand=payload.brand || {};
+
+        this.data=payload.data || {};
+
+        this.components=payload.components || [];
+
+        this.theme=payload.injectedTheme || {};
+
+        this.layout=payload.injectedLayout || {};
+
+        this.typography=payload.injectedTypography || {};
+
+        this.config=payload.injectedConfig || {};
+
+    }
+
 }
 
-class ThemeManager {
-  apply(context) {
-    const root = document.documentElement;
-    Object.keys(context.theme.colors).forEach(key => {
-      root.style.setProperty(`--color-${key}`, context.theme.colors[key]);
-    });
-    Object.keys(context.typography).forEach(elementKey => {
-      const styles = context.typography[elementKey];
-      Object.keys(styles).forEach(cssProp => {
-        root.style.setProperty(`--typo-${elementKey}-${cssProp}`, styles[cssProp]);
-      });
-    });
-  }
+/* ==========================================================
+   THEME MANAGER
+========================================================== */
+
+class ThemeManager{
+
+    apply(context){
+
+        const root=document.documentElement;
+
+        if(!context.theme.colors) return;
+
+        Object.entries(context.theme.colors).forEach(([key,value])=>{
+
+            root.style.setProperty(`--color-${key}`,value);
+
+        });
+
+    }
+
 }
 
-class LayoutManager {
-  apply(context) {
-    const root = document.documentElement;
-    root.style.setProperty('--canvas-w', `${context.layout.width}px`);
-    root.style.setProperty('--canvas-h', `${context.layout.height}px`);
-    root.setAttribute('data-profile', context.metadata.profile);
-    root.setAttribute('data-platform', context.metadata.platform);
+/* ==========================================================
+   LAYOUT MANAGER
+========================================================== */
 
-    if (context.config.engine?.safeZonePreview) {
-      const sz = document.querySelector('.safe-zone-boundary');
-      if (sz) sz.style.display = 'block';
-    }
-  }
-}
+class LayoutManager{
 
-// DECOUPLED INDEPENDENT COMPONENT COMPOSITORS
-const ComponentRegistry = {
-  logo: {
-    render(container, compConfig, context) {
-      const template = document.getElementById('tpl-logo');
-      const clone = document.importNode(template.content, true);
-      const img = clone.querySelector('.brand-logo-img');
-      if (img && context.brand.logo) img.src = context.brand.logo;
-      container.appendChild(clone);
-    }
-  },
-  headline: {
-    render(container, compConfig, context) {
-      const template = document.getElementById('tpl-headline');
-      const clone = document.importNode(template.content, true);
-      clone.querySelector('.render-headline').textContent = context.data.headline || '';
-      clone.querySelector('.render-subheadline').textContent = context.data.subHeadline || '';
-      clone.querySelector('.render-caption').textContent = context.data.caption || '';
-      container.appendChild(clone);
-    }
-  },
-  features: {
-    render(container, compConfig, context) {
-      if (!context.data.features || context.data.features.length === 0) return;
-      const template = document.getElementById('tpl-features');
-      const clone = document.importNode(template.content, true);
-      const ul = clone.querySelector('.feature-list');
-      context.data.features.forEach(text => {
-        const li = document.createElement('li');
-        li.className = 'feature-item';
-        li.innerHTML = `<span class="bullet">✔</span> <span class="text">${text}</span>`;
-        ul.appendChild(li);
-      });
-      container.appendChild(clone);
-    }
-  },
-  button: {
-    render(container, compConfig, context) {
-      if (!context.data.cta) return;
-      const template = document.getElementById('tpl-button');
-      const clone = document.importNode(template.content, true);
-      clone.querySelector('.cta-button-element').textContent = context.data.cta;
-      container.appendChild(clone);
-    }
-  },
-  contact: {
-    render(container, compConfig, context) {
-      if (!context.data.contact) return;
-      const template = document.getElementById('tpl-contact');
-      const clone = document.importNode(template.content, true);
-      const grid = clone.querySelector('.contact-grid');
-      
-      const icons = compConfig.props?.icons || { phone: '📞', whatsapp: '💬', website: '🌐', email: '✉' };
-      Object.keys(context.data.contact).forEach(key => {
-        if (icons[key] && context.data.contact[key]) {
-          const div = document.createElement('div');
-          div.className = 'contact-node';
-          div.innerHTML = `<span class="icon">${icons[key]}</span> ${context.data.contact[key]}`;
-          grid.appendChild(div);
+    apply(context){
+
+        const root=document.documentElement;
+
+        if(context.layout.width){
+
+            root.style.setProperty(
+                "--canvas-w",
+                context.layout.width+"px"
+            );
+
         }
-      });
-      container.appendChild(clone);
+
+        if(context.layout.height){
+
+            root.style.setProperty(
+                "--canvas-h",
+                context.layout.height+"px"
+            );
+
+        }
+
+        root.setAttribute(
+            "data-profile",
+            context.metadata.profile || "portrait"
+        );
+
+        root.setAttribute(
+            "data-platform",
+            context.metadata.platform || ""
+        );
+
     }
-  },
-  footer: {
-    render(container, compConfig, context) {
-      const template = document.getElementById('tpl-footer');
-      const clone = document.importNode(template.content, true);
-      clone.querySelector('.meta-branch-tag').textContent = context.data.contact?.branch ? `Branch: ${context.data.contact.branch}` : '';
-      clone.querySelector('.meta-date-stamp').textContent = `System Code: ${context.metadata.date}`;
-      clone.querySelector('.footer-corporate-tagline').textContent = compConfig.props?.tagline || 'SYSTEM VERIFIED';
-      container.appendChild(clone);
+
+}
+
+/* ==========================================================
+   ASSET MANAGER
+========================================================== */
+
+class AssetManager{
+
+    apply(context){
+
+        const bg=context.data.assets?.background?.src;
+
+        if(bg){
+
+            document
+                .getElementById("background-layer")
+                ?.style
+                .setProperty(
+                    "background-image",
+                    `url('${bg}')`
+                );
+
+        }
+
     }
-  }
+
+    async waitForAssets(){
+
+        const images=[...document.images];
+
+        await Promise.all(
+
+            images.map(img=>{
+
+                if(img.complete) return Promise.resolve();
+
+                return new Promise(resolve=>{
+
+                    img.onload=resolve;
+
+                    img.onerror=resolve;
+
+                });
+
+            })
+
+        );
+
+        if(document.fonts){
+
+            await document.fonts.ready;
+
+        }
+
+    }
+
+}
+/* ==========================================================
+   COMPONENT REGISTRY
+========================================================== */
+
+const ComponentRegistry = {
+
+    /* ------------------------------------------------------
+       LOGO
+    ------------------------------------------------------ */
+
+    logo: {
+
+        render(context) {
+
+            const zone = document.getElementById("brand-zone");
+
+            if (!zone) return;
+
+            zone.innerHTML = "";
+
+            if (!context.brand.logo) return;
+
+            const img = document.createElement("img");
+
+            img.src = context.brand.logo;
+            img.alt = context.brand.name || "";
+            img.className = "brand-logo-img";
+
+            zone.appendChild(img);
+
+        }
+
+    },
+
+    /* ------------------------------------------------------
+       HEADLINE
+    ------------------------------------------------------ */
+
+    headline: {
+
+        render(context) {
+
+            const headline = document.getElementById("headline");
+            const subheadline = document.getElementById("subheadline");
+            const caption = document.getElementById("caption");
+
+            if (headline)
+                headline.textContent = context.data.headline || "";
+
+            if (subheadline)
+                subheadline.textContent = context.data.subHeadline || "";
+
+            if (caption)
+                caption.textContent = context.data.caption || "";
+
+        }
+
+    },
+
+    /* ------------------------------------------------------
+       FEATURES
+    ------------------------------------------------------ */
+
+    features: {
+
+        render(context) {
+
+            const list = document.getElementById("feature-list");
+
+            if (!list) return;
+
+            list.innerHTML = "";
+
+            const features = context.data.features || [];
+
+            features.forEach(feature => {
+
+                const li = document.createElement("li");
+
+                li.className = "feature-item";
+
+                li.innerHTML = `
+                    <span class="bullet">✔</span>
+                    <span>${feature}</span>
+                `;
+
+                list.appendChild(li);
+
+            });
+
+        }
+
+    },
+
+    /* ------------------------------------------------------
+       BUTTON
+    ------------------------------------------------------ */
+
+    button: {
+
+        render(context) {
+
+            const button = document.getElementById("cta-button");
+
+            if (!button) return;
+
+            button.textContent = context.data.cta || "";
+
+        }
+
+    },
+
+    /* ------------------------------------------------------
+       CONTACT
+    ------------------------------------------------------ */
+
+    contact: {
+
+        render(context) {
+
+            const grid = document.getElementById("contact-grid");
+
+            if (!grid) return;
+
+            grid.innerHTML = "";
+
+            const contact = context.data.contact || {};
+
+            const icons = {
+
+                phone: "📞",
+                whatsapp: "💬",
+                website: "🌐",
+                email: "✉"
+
+            };
+
+            Object.entries(contact).forEach(([key, value]) => {
+
+                if (!value) return;
+
+                const node = document.createElement("div");
+
+                node.className = "contact-node";
+
+                node.innerHTML = `
+                    <span class="icon">${icons[key] || ""}</span>
+                    <span>${value}</span>
+                `;
+
+                grid.appendChild(node);
+
+            });
+
+        }
+
+    },
+
+    /* ------------------------------------------------------
+       FOOTER
+    ------------------------------------------------------ */
+
+    footer: {
+
+        render(context, component) {
+
+            const tag = document.getElementById("footer-tagline");
+
+            if (!tag) return;
+
+            tag.textContent =
+                component?.props?.tagline ||
+                "FINANCING YOUR GROWTH";
+
+        }
+
+    },
+
+    /* ------------------------------------------------------
+       HERO IMAGE
+    ------------------------------------------------------ */
+
+    hero: {
+
+        render(context) {
+
+            const zone = document.getElementById("hero-zone");
+
+            if (!zone) return;
+
+            zone.innerHTML = "";
+
+            const src = context.data.assets?.hero?.src;
+
+            if (!src) return;
+
+            const img = document.createElement("img");
+
+            img.src = src;
+            img.className = "hero-image";
+
+            zone.appendChild(img);
+
+        }
+
+    }
+
 };
+/* ==========================================================
+   COMPONENT MANAGER
+========================================================== */
 
 class ComponentManager {
-  assemble(context) {
-    const surface = document.getElementById('composition-surface');
-    surface.innerHTML = '';
-    
-    context.components.forEach(compConfig => {
-      if (compConfig.visible === false) return;
-      const handler = ComponentRegistry[compConfig.type];
-      if (handler) {
-        handler.render(surface, compConfig, context);
-      } else {
-        console.warn(`Render Subsystem Alert: Unknown type definition target: ${compConfig.type}`);
-      }
-    });
-  }
+
+    render(context) {
+
+        context.components.forEach(component => {
+
+            if (component.visible === false) return;
+
+            const renderer = ComponentRegistry[component.type];
+
+            if (!renderer) {
+                console.warn(`No renderer registered for component: ${component.type}`);
+                return;
+            }
+
+            try {
+
+                renderer.render(context, component);
+
+            } catch (err) {
+
+                console.error(
+                    `Component "${component.type}" failed:`,
+                    err
+                );
+
+            }
+
+        });
+
+    }
+
 }
 
-class AssetResolver {
-  resolve(context) {
-    const root = document.documentElement;
-    if (context.data.assets?.background?.src) {
-      root.style.setProperty('--bg-image-url', `url('${context.data.assets.background.src}')`);
-    }
-    if (context.data.assets?.overlay) {
-      root.style.setProperty('--gradient-overlay-override', context.data.assets.overlay);
-    }
-  }
-
-  async verifyAllLoaded() {
-    const images = Array.from(document.querySelectorAll('img'));
-    const promises = images.map(img => {
-      if (img.complete) return Promise.resolve();
-      return new Promise(resolve => {
-        img.onload = resolve;
-        img.onerror = resolve;
-      });
-    });
-    await document.fonts.ready;
-    await Promise.all(promises);
-  }
-}
-
-class PluginManager {
-  constructor() {
-    this.registry = {
-      beforeThemeLoaded: [],
-      beforeLayout: [],
-      beforeRender: [],
-      afterRender: [],
-      beforeExport: []
-    };
-  }
-
-  register(hook, fn) {
-    if (this.registry[hook]) this.registry[hook].push(fn);
-  }
-
-  async trigger(hook, context) {
-    for (const fn of this.registry[hook]) {
-      await fn(context);
-    }
-  }
-}
+/* ==========================================================
+   GRAPHICS RENDERER
+========================================================== */
 
 class GraphicsRenderer {
-  constructor() {
-    this.themeManager = new ThemeManager();
-    this.layoutManager = new LayoutManager();
-    this.componentManager = new ComponentManager();
-    this.assetResolver = new AssetResolver();
-    this.pluginManager = new PluginManager();
-  }
 
-  async execute(rawPayload) {
-    try {
-      const context = new RenderContext(rawPayload);
+    constructor() {
 
-      // Programmatic Lifecycle Hooks Matrix Execution Loops
-      await this.pluginManager.trigger('beforeThemeLoaded', context);
-      this.themeManager.apply(context);
+        this.themeManager = new ThemeManager();
 
-      await this.pluginManager.trigger('beforeLayout', context);
-      this.layoutManager.apply(context);
+        this.layoutManager = new LayoutManager();
 
-      await this.pluginManager.trigger('beforeRender', context);
-      this.componentManager.assemble(context);
-      this.assetResolver.resolve(context);
+        this.assetManager = new AssetManager();
 
-      await this.pluginManager.trigger('afterRender', context);
-      await this.assetResolver.verifyAllLoaded();
+        this.componentManager = new ComponentManager();
 
-      await this.pluginManager.trigger('beforeExport', context);
-      this.finalize();
-    } catch (err) {
-      this.fail(err);
     }
-  }
 
-  finalize() {
-    document.documentElement.classList.add('render-engine-ready');
-    window.renderEngineStatus = "READY_TO_EXPORT";
-  }
+    async execute(payload) {
 
-  fail(err) {
-    document.documentElement.classList.add('render-engine-failed');
-    window.renderEngineStatus = `ENGINE_FAILURE: ${err.message}`;
-    console.error("Critical Execution Context Aborted:", err);
-  }
+        try {
+
+            const context = new RenderContext(payload);
+
+            /* Apply Theme */
+
+            this.themeManager.apply(context);
+
+            /* Apply Layout */
+
+            this.layoutManager.apply(context);
+
+            /* Apply Background Assets */
+
+            this.assetManager.apply(context);
+
+            /* Render Components */
+
+            this.componentManager.render(context);
+
+            /* Wait for images + fonts */
+
+            await this.assetManager.waitForAssets();
+
+            this.complete();
+
+        }
+
+        catch (err) {
+
+            this.fail(err);
+
+        }
+
+    }
+
+    complete() {
+
+        document.documentElement.classList.add(
+            "render-engine-ready"
+        );
+
+        window.renderEngineStatus = "READY_TO_EXPORT";
+
+        console.log("✓ Render Complete");
+
+    }
+
+    fail(err) {
+
+        document.documentElement.classList.add(
+            "render-engine-failed"
+        );
+
+        window.renderEngineStatus =
+            "ENGINE_FAILURE: " + err.message;
+
+        console.error(err);
+
+    }
+
 }
+/* ==========================================================
+   ENGINE BOOTSTRAP
+========================================================== */
 
-// Engine execution window instantiation bindings
 window.CompositorCore = new GraphicsRenderer();
 
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.RENDER_DATA) {
+document.addEventListener("DOMContentLoaded", () => {
+
+    if (!window.RENDER_DATA) {
+
+        console.error("No render payload received.");
+
+        window.renderEngineStatus =
+            "ENGINE_FAILURE: Missing render payload.";
+
+        return;
+
+    }
+
     window.CompositorCore.execute(window.RENDER_DATA);
-  }
+
 });

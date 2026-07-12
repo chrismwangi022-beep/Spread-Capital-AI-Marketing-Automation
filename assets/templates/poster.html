@@ -1,72 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Graphics Engine Viewport Pipeline</title>
-  <link rel="stylesheet" href="fonts.css">
-  <link rel="stylesheet" href="poster.css">
+
+    <meta charset="UTF-8">
+
+    <title>Spread Capital Graphics Renderer</title>
+
+    <link rel="stylesheet" href="poster.css">
+
 </head>
+
 <body class="engine-renderer">
 
-  <div id="canvas-viewport" class="canvas-viewport">
-    <div id="layer-bg" class="layer layer-bg"></div>
-    <div id="layer-gradient-overlay" class="layer layer-gradient-overlay"></div>
-    
-    <div class="layer layer-decorative-shapes">
-      <div class="shape vector-circle-top-right"></div>
-      <div class="shape vector-diagonal-ribbon"></div>
-      <div class="shape vector-accent-line"></div>
+    <div id="canvas-viewport">
+
+        <!-- ===================================================== -->
+        <!-- BACKGROUND LAYERS                                     -->
+        <!-- ===================================================== -->
+
+        <div id="background-layer" class="background"></div>
+
+        <div class="gradient"></div>
+
+        <div class="gold-circle"></div>
+
+        <div class="blue-wave"></div>
+
+        <div class="gold-line"></div>
+
+
+        <!-- ===================================================== -->
+        <!-- HEADER                                                -->
+        <!-- ===================================================== -->
+
+        <header id="header">
+
+            <div id="brand-zone">
+
+                <img
+class="brand-logo-img"
+src="file:///opt/spread-capital/assets/branding/logo.png"><!-- renderer.js injects logo -->
+
+            </div>
+
+        </header>
+
+
+        <!-- ===================================================== -->
+        <!-- MAIN CONTENT                                          -->
+        <!-- ===================================================== -->
+
+        <main id="main-layout">
+
+            <!-- LEFT COLUMN -->
+
+            <section id="left-column">
+
+                <section id="headline-zone">
+
+                    <h1
+                        id="headline"
+                        class="render-headline">
+                    </h1>
+
+                    <h2
+                        id="subheadline"
+                        class="render-subheadline">
+                    </h2>
+
+                    <p
+                        id="caption"
+                        class="render-caption">
+                    </p>
+
+                </section>
+
+
+                <section id="features-zone">
+
+                    <ul
+                        id="feature-list"
+                        class="feature-list">
+                    </ul>
+
+                </section>
+
+
+                <section id="cta-zone">
+
+                    <div
+                        id="cta-button"
+                        class="cta-button-element">
+                    </div>
+
+                </section>
+
+            </section>
+
+
+            <!-- RIGHT COLUMN -->
+
+            <aside id="right-column">
+
+                <div id="hero-zone">
+
+                    <!-- renderer.js injects hero image -->
+
+                </div>
+
+            </aside>
+
+        </main>
+
+
+        <!-- ===================================================== -->
+        <!-- FOOTER                                                -->
+        <!-- ===================================================== -->
+
+        <footer id="footer">
+
+            <!-- Contact Ribbon -->
+
+            <section id="contact-zone">
+
+                <div
+                    id="contact-grid"
+                    class="contact-grid">
+                </div>
+
+            </section>
+
+            <!-- Gold Footer -->
+
+            <section class="footer-bar">
+
+                <div
+                    id="footer-tagline">
+
+                    FINANCING YOUR GROWTH
+
+                </div>
+
+            </section>
+
+        </footer>
+
     </div>
 
-    <div id="composition-surface" class="layer layer-composition-surface"></div>
+    <script src="renderer.js"></script>
 
-    <div id="safe-zone" class="layer layer-safe-zone-overlay">
-      <div class="safe-zone-boundary"></div>
-    </div>
-  </div>
-
-  <template id="tpl-logo">
-    <div class="layer layer-logo">
-      <img class="brand-logo-img" src="" alt="Identity Component">
-    </div>
-  </template>
-
-  <template id="tpl-headline">
-    <div class="layer layer-typography-matrix">
-      <h1 class="render-headline"></h1>
-      <h2 class="render-subheadline"></h2>
-      <p class="render-caption"></p>
-    </div>
-  </template>
-
-  <template id="tpl-features">
-    <div class="layer layer-feature-matrix">
-      <ul class="feature-list"></ul>
-    </div>
-  </template>
-
-  <template id="tpl-button">
-    <div class="layer layer-cta">
-      <div class="cta-button-element"></div>
-    </div>
-  </template>
-
-  <template id="tpl-contact">
-    <div class="layer layer-contact-information">
-      <div class="contact-grid"></div>
-    </div>
-  </template>
-
-  <template id="tpl-footer">
-    <div class="layer layer-footer">
-      <div class="footer-meta-block">
-        <span class="meta-branch-tag"></span>
-        <span class="meta-date-stamp"></span>
-      </div>
-      <div class="footer-corporate-tagline"></div>
-    </div>
-  </template>
-
-  <script src="renderer.js"></script>
 </body>
+
 </html>
