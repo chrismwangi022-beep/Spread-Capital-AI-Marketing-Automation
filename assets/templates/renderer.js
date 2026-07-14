@@ -158,30 +158,30 @@ const ComponentRegistry = {
        LOGO
     ------------------------------------------------------ */
 
-    logo: {
+logo: {
 
-        render(context) {
+    render(context) {
 
-            const zone = document.getElementById("brand-zone");
+        const zone = document.getElementById("brand-zone");
 
-            if (!zone) return;
+        if (!zone) return;
 
-            zone.innerHTML = "";
+        zone.innerHTML = "";
 
-            if (!context.brand.logo) return;
+        if (!context.brand.logo) return;
 
-            const img = document.createElement("img");
+        const img = document.createElement("img");
 
-            img.src = context.brand.logo;
-            img.alt = context.brand.name || "";
-            img.className = "brand-logo-img";
+img.src = context.brand.logo;
+        img.alt = context.brand.name || "";
 
-            zone.appendChild(img);
+        img.className = "brand-logo-img";
 
-        }
+        zone.appendChild(img);
 
-    },
+    }
 
+},
     /* ------------------------------------------------------
        HEADLINE
     ------------------------------------------------------ */

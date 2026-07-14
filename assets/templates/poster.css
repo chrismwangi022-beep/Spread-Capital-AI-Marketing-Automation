@@ -41,6 +41,30 @@ body{
     background:white;
 
 }
+/* ==========================================================
+   PAGE STRUCTURE
+   ========================================================== */
+
+#header{
+
+    position:relative;
+    z-index:20;
+
+}
+
+#main-layout{
+
+    position:relative;
+    z-index:10;
+
+}
+
+#footer{
+
+    position:relative;
+    z-index:20;
+
+}
 
 /* ==========================================================
    BACKGROUND
@@ -48,8 +72,15 @@ body{
 
 .background{
 
+    position:absolute;
+
+    inset:0;
+
     background-size:cover;
+
     background-position:center;
+
+    z-index:-2;
 
 }
 
@@ -57,14 +88,14 @@ body{
 
     position:absolute;
     inset:0;
-
+z-index:-1;
     background:
-    linear-gradient(
-        90deg,
-        rgba(255,255,255,.98) 0%,
-        rgba(255,255,255,.95) 48%,
-        rgba(255,255,255,0) 72%
-    );
+linear-gradient(
+    90deg,
+    rgba(255,255,255,.18) 0%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,0) 70%
+);
 
 }
 
@@ -152,14 +183,21 @@ body{
    CONTENT
    ========================================================== */
 
-#content-zone{
+/* ===========================================
+   LEFT COLUMN
+=========================================== */
+
+#left-column{
 
     position:absolute;
 
     left:70px;
+
     top:265px;
 
     width:560px;
+
+    z-index:10;
 
 }
 
@@ -202,6 +240,11 @@ body{
     font-size:22px;
 
     line-height:1.7;
+
+}
+#features-zone{
+
+    margin-top:35px;
 
 }
 
@@ -273,10 +316,7 @@ body{
 
 #cta-zone{
 
-    position:absolute;
-
-    left:70px;
-    bottom:170px;
+    margin-top:45px;
 
 }
 
