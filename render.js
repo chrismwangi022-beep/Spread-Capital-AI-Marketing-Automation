@@ -150,6 +150,18 @@ async function loadCampaign(flags) {
 
         const page = await browser.newPage();
 
+        page.on("console", msg => {
+    console.log("[BROWSER]", msg.type(), msg.text());
+});
+
+page.on("pageerror", err => {
+    console.error("[PAGE ERROR]", err);
+});
+
+page.on("requestfailed", req => {
+    console.error("[REQUEST FAILED]", req.url(), req.failure()?.errorText);
+});
+
         await page.setViewport({
 
             width: currentDimensions.width,
@@ -162,6 +174,17 @@ async function loadCampaign(flags) {
                     : 1
 
         });
+        const logoPath = path.join(
+    __dirname,
+    "assets",
+    "branding",
+    "logo.png"
+);
+
+executionContextPayload.brand.logo =
+    `file:///${logoPath.replace(/\\/g, "/")}`;
+
+console.log("Using logo:", executionContextPayload.brand.logo);
 
         await page.evaluateOnNewDocument(payload => {
 
@@ -180,6 +203,10 @@ async function loadCampaign(flags) {
                 waitUntil: "load"
             }
         );
+        console.log(await page.title());
+
+const html = await page.content();
+console.log(html.substring(0, 500));
 
         await page.waitForFunction(
             () => typeof window.renderEngineStatus !== "undefined",

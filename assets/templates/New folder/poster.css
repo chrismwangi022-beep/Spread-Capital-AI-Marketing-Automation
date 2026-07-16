@@ -13,12 +13,12 @@
     --canvas-h: 1350px;
 
     /* Official Brand Colors */
-    --blue: #083A8D;       /* Main Corporate Blue */
-    --blue-dark: #062B69;  /* Deep Footing Blue */
+    --blue: #1b365d;       /* Main Corporate Blue */
+    --blue-dark: #122543;  /* Deep Footing Blue */
     --blue-light: #3caee2; /* Accenting Sky Blue */
-    --gold: #F3B323;       /* Brand Accent Gold */
+    --gold: #d4af37;       /* Brand Accent Gold */
     --white: #ffffff;
-    --text: #333333;       /* High-Contrast Body Text */
+    --text: #2d3748;       /* Charcoal Body Text */
 }
 
 body {
@@ -27,8 +27,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #canvas-viewport {
@@ -74,18 +73,18 @@ body {
     inset: 0;
     background-size: cover;
     background-position: center;
-    z-index: -5;
+    z-index: -2;
 }
 
 .gradient {
     position: absolute;
     inset: 0;
-    z-index: -4;
+    z-index: -1;
     background: linear-gradient(
         90deg,
         rgba(255, 255, 255, 0.98) 0%,
-        rgba(255, 255, 255, 0.92) 50%,
-        rgba(255, 255, 255, 0.1) 100%
+        rgba(255, 255, 255, 0.90) 50%,
+        rgba(255, 255, 255, 0) 100%
     );
 }
 
@@ -96,61 +95,23 @@ body {
     transform: translate(-50%, -50%);
     width: 680px;
     height: 680px;
-    opacity: 0.025;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="%23083a8d" stroke-width="6"/></svg>');
+    opacity: 0.035;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="%231b365d" stroke-width="6"/></svg>');
     background-repeat: no-repeat;
     background-size: contain;
     pointer-events: none;
-    z-index: -3;
-}
-
-/* CSS-Only Corporate Theme Background Decorations */
-.gold-circle {
-    position: absolute;
-    right: -100px;
-    top: -100px;
-    width: 480px;
-    height: 480px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(243, 179, 35, 0.12) 0%, rgba(243, 179, 35, 0) 70%);
-    z-index: -3;
-    pointer-events: none;
-}
-
-.blue-wave {
-    position: absolute;
-    bottom: -150px;
-    left: -150px;
-    width: 850px;
-    height: 380px;
-    background: var(--blue);
-    border-radius: 50%;
-    transform: rotate(-10deg);
-    opacity: 0.06;
-    z-index: -3;
-    pointer-events: none;
-}
-
-.gold-line {
-    position: absolute;
-    left: 70px;
-    bottom: 220px;
-    width: 140px;
-    height: 6px;
-    background-color: var(--gold);
-    border-radius: 3px;
-    z-index: -1;
+    z-index: 0;
 }
 
 /* ==========================================================
-   BRAND LOGO (4X SIZE CALIBRATED)
+   BRAND LOGO (MAXIMIZED & PROMINENT)
    ========================================================== */
 
 #brand-zone {
     position: absolute;
     left: 70px;
-    top: 5px;             /* Positioned cleanly from the top margin */
-    width: 800px;          
+    top: 25px;             /* Positioned cleanly from the top margin */
+    width: 900px;          
     height: 350px;         /* Calibrated boundary height to achieve the target 4x size scale */
     z-index: 20;
     display: flex;
@@ -201,8 +162,7 @@ body {
     margin-top: 25px;
     width: 540px;
     color: var(--text);
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 19px;
     line-height: 1.6;
 }
 
@@ -253,15 +213,15 @@ body {
     display: inline-block;
     background: var(--blue);
     color: var(--white);
-    padding: 22px 55px;
+    padding: 20px 50px;
     min-width: 480px;
     text-align: center;
-    border-radius: 50px;  /* Modern round button profiles */
+    border-radius: 8px;
     font-size: 22px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 12px 30px rgba(8, 58, 141, 0.25);
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 25px rgba(27, 54, 93, 0.2);
     border: none;
 }
 
@@ -280,12 +240,6 @@ body {
     justify-content: center;
 }
 
-/* Gracefully collapses the container if no image was returned */
-#hero-zone:empty,
-#hero-zone img:not([src]) {
-    display: none !important;
-}
-
 .hero-image {
     width: 100%;
     height: auto;
@@ -293,9 +247,65 @@ body {
     object-fit: contain;
 }
 
+.gold-accent{
+
+    position:absolute;
+
+    left:70px;
+
+    bottom:150px;
+
+    width:170px;
+
+    height:7px;
+
+    background:var(--gold);
+
+    z-index:3;
+
+}
+
+/* CSS-Only Corporate Theme Background Decorations */
+.gold-circle {
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(243, 179, 35, 0.12) 0%, rgba(243, 179, 35, 0) 70%);
+    z-index: -3;
+    pointer-events: none;
+}
+
+.blue-wave {
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 850px;
+    height: 380px;
+    background: var(--blue);
+    border-radius: 50%;
+    transform: rotate(-10deg);
+    opacity: 0.06;
+    z-index: -3;
+    pointer-events: none;
+}
+
+.gold-line {
+    position: absolute;
+    left: 70px;
+    bottom: 220px;
+    width: 140px;
+    height: 6px;
+    background-color: var(--gold);
+    border-radius: 3px;
+    z-index: -1;
+}
+
 /* ==========================================================
-   FOOTER (Geometric Stripe & Non-Overlapping Contact Ribbon)
-   ========================================================== */
+   OFFICIAL SPREAD CAPITAL RIBBON
+========================================================== */
 
 /* Custom No-Gap CSS Grid Geometric Stripe */
 .brand-geometric-stripe {
@@ -378,6 +388,21 @@ body {
     text-transform: uppercase;
     letter-spacing: 4px;
     font-size: 13px;
+}
+.footer-accent{
+
+    position:absolute;
+
+    bottom:96px;
+
+    left:70px;
+
+    width:170px;
+
+    height:7px;
+
+    background:#F3B323;
+
 }
 
 /* ==========================================================
